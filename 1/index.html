@@ -1,0 +1,108 @@
+<!--
+/*  Collector (Garcia, Kornell, Kerr, Blake & Haffey)
+    A program for running experiments on the web
+    Copyright 2012-2016 Mikey Garcia & Nate Kornell
+
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 3 as published by
+    the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>
+ 		
+		Kitten release (2019) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)		
+*/  
+-->
+<head>
+
+<style>
+body, html {
+  height: 100%;
+}
+#everything{
+	margin:20px; 
+	max-width:900px;
+	position:absolute; /*it can be fixed too*/
+	left:0; right:0;
+	top:0; bottom:0;
+	margin:auto;	
+}
+.question_div,
+#map_title_div,
+#map_url,
+#sheet_id_div,
+#sheet_number_div{
+  margin:10px;
+}
+
+</style>
+
+
+<head>
+	<link rel="shortcut icon" type="image/x-icon" href="logo.png" />
+</head>
+
+<body>
+
+<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="libraries/bootstrapCollector.css">
+	<script src="libraries/jquery-3.3.1.min.js"></script>
+	<script src="libraries/papaparse.4.3.6.min.js"></script>
+	<script src="libraries/popper.min.js"></script>
+	<script src="libraries/bootstrap.4.0.min.js"></script>
+</head>
+<div class="jumbotron" id="everything">
+  <h1 class="display-4 text-primary">What you need for a map</h1>
+  <hr class="my-4">
+  
+	<p>Good news is that this can all be done for free, and in less than half an hour. First, you need to download <a class="btn btn-primary" href="TemplateOutputSheet.xlsx">this template spreadsheet</a>. </p>
+  <p>It has a list of all the countries you are likely to need (some islands are missing), and you can copy and paste this list straight into google forms.</p>
+  <p>Once you've created your survey, you'll want to select the option to make the responses go to a google sheet</p>
+  <p>Once this spreadsheet has been made, you'll want to copy "Sheet2" from the template file into the newly created spreadsheet.</p>
+  <p>You need to publish this spreadsheet, and then copy the sheet ID into the input below. The spreadsheet ID is part of the URL of your spreadsheet: <br>https://docs.google.com/spreadsheets/d/<b>[SPREADSHEET ID IS HERE]</b>/edit#gid=[the gid will go here]</p>
+  
+  
+  <div class="input-group mb-3 question_div">
+    <div class="input-group-prepend">
+      <span class="input-group-text bg-primary text-white" id="basic-addon1">Spreadsheet ID</span>
+    </div>
+    <input type="text" class="form-control" placeholder="This will generally be 2, i.e. the second sheet" aria-label="Username" aria-describedby="basic-addon1" id="sheet_id_input">
+  </div>
+  
+  <div class="input-group mb-3 question_div">
+    <div class="input-group-prepend">
+      <span class="input-group-text bg-primary text-white" id="basic-addon1">Sheet number</span>
+    </div>
+    <input type="text" class="form-control" placeholder="This will generally be 2, i.e. the second sheet" aria-label="Username" aria-describedby="basic-addon1" id="sheet_number_input">
+  </div>
+  
+  <div class="input-group mb-3 question_div">
+    <div class="input-group-prepend">
+      <span class="input-group-text bg-primary text-white">Map title</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Whatever you want the title to be" aria-label="Username" aria-describedby="basic-addon1" id="map_title_input">
+  </div>
+  
+  <input class="form-control text-primary bg-white" placeholder="Your url will generate here as you fill in the above inputs" id="map_url" disabled>
+  <button class="btn btn-primary" id="open_map">Open link for the map</button>
+</div>
+<script>
+$("#sheet_id_input,#sheet_number_input,#map_title_input").on("keyup",function(){
+  var this_url = window.location.href;
+      this_url = this_url.replace("index.html","") +
+                 "solo_map.html";
+  $("#map_url").val(this_url + "?spreadsheetID=" + $("#sheet_id_input").val() + 
+                               "&sheet_no="      + $("#sheet_number_input").val()  +
+                               "&title="         + $("#map_title_input").val());
+});
+$("#open_map").on("click",function(){
+  window.open($("#map_url").val(), '_blank');
+});
+</script>
